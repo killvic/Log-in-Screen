@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Log-in Screen</string>
+    <string name="email_error">Email Error</string>
+    <string name="password_error">Password error</string>
+</resources>
