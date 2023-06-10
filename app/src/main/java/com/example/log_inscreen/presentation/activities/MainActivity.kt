@@ -9,14 +9,16 @@ import android.widget.EditText
 import android.widget.TextView
 import com.example.log_inscreen.R
 import com.example.log_inscreen.domain.models.common.EmailModel
+import com.example.log_inscreen.domain.models.common.PasswordModel
 import com.example.log_inscreen.domain.usecases.email_validation_usecase.EmailValidationUseCase
+import com.example.log_inscreen.domain.usecases.password_validation_usecase.PasswordValidationUseCase
 
 
 /*
     TODO:
         1. Write CheckFieldsUseCase()
         DONE - Write EmailValidationUseCase()
-        3. Write PasswordValidationUseCase()
+        DONE - Write PasswordValidationUseCase()
         4. Write AutoCompleteUseCase()
         ADD:
             - LiveData for etFields
@@ -26,6 +28,8 @@ import com.example.log_inscreen.domain.usecases.email_validation_usecase.EmailVa
 class MainActivity : AppCompatActivity() {
     private lateinit var etEmail : EditText
     private lateinit var twEmailError: TextView
+    private lateinit var etPassword: EditText
+    private lateinit var twPasswordError: TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -35,13 +39,16 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
         etEmail = findViewById(R.id.etEmail)
         twEmailError = findViewById(R.id.twEmailError)
+        etPassword = findViewById(R.id.etPassword)
+        twPasswordError = findViewById(R.id.twPasswordError)
         emailTextWatcher(etEmail, twEmailError)
+        passwordTextWatcher(etPassword, twPasswordError)
     }
 }
 
 private fun emailTextWatcher(etEmail: EditText, twEmailError: TextView) {
-    var tempEmailHolder : EmailModel = EmailModel("")
-    var err : String? = ""
+    val tempEmailHolder = EmailModel("")
+    var err : String?
     val textWatcher = object : TextWatcher  {
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             //Do nothing
@@ -60,4 +67,27 @@ private fun emailTextWatcher(etEmail: EditText, twEmailError: TextView) {
         }
     }
     etEmail.addTextChangedListener(textWatcher)
+}
+
+private fun passwordTextWatcher(etPassword: EditText, twPasswordError: TextView) {
+    var tempPasswordHolder = PasswordModel("")
+    var err : String?
+    val textWatcher = object : TextWatcher  {
+        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            //Do nothing
+        }
+
+        override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            //Do nothing
+        }
+
+        override fun afterTextChanged(s: Editable?) {
+            Log.d("AAA", s.toString())
+            tempPasswordHolder.password = s.toString()
+            err = PasswordValidationUseCase.execute(tempPasswordHolder)?.message
+            twPasswordError.text = err
+            Log.d("AAA", "$err")
+        }
+    }
+    etPassword.addTextChangedListener(textWatcher)
 }
