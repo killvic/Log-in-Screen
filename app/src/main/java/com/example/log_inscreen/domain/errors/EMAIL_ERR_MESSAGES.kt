@@ -3,7 +3,7 @@ package com.example.log_inscreen.domain.errors
 import com.example.log_inscreen.domain.models.errors.ErrorMessageModel
 
 
-object EmailErrorMessages {
+object EMAIL_ERR_MESSAGES {
     val EMAIL_EMPTY_ERROR = ErrorMessageModel("ERR001", "Email cannot be empty")
     val EMAIL_ONLY_ONE_AT = ErrorMessageModel("ERR002", "Email must contain exactly one @ symbol")
     val EMAIL_USERNAME_EMPTY_ERROR = ErrorMessageModel("ERR003", "Username cannot be empty")
